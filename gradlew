@@ -1,6 +1,7 @@
 #!/bin/sh
 ##############################################################################
-## Gradle wrapper script (Unix-based)
+## Gradle wrapper script
 ##############################################################################
 DIR="$( cd "$( dirname "$0" )" && pwd )"
-exec "$DIR/gradle/wrapper/gradle-wrapper.jar" "$@"
+exec "$JAVA_HOME/bin/java" -jar "$DIR/gradle/wrapper/gradle-wrapper.jar" "$@"
+
