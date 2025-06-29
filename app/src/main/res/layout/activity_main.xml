@@ -7,10 +7,12 @@
     android:padding="24dp">
 
     <Button
-        android:id="@+id/micButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Speak" />
+    android:id="@+id/micButton"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Speak"
+    android:background="#2196F3"
+    android:textColor="#FFFFFF"/>
 
     <TextView
         android:id="@+id/resultText"
