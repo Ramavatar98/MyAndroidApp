@@ -42,9 +42,9 @@ public class VoiceBackgroundService extends Service {
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(
-                "voice_channel",
-                "Voice Listener Channel",
-                NotificationManager.IMPORTANCE_LOW
+                    "voice_channel",
+                    "Voice Listener Channel",
+                    NotificationManager.IMPORTANCE_LOW
             );
             NotificationManager manager = getSystemService(NotificationManager.class);
             if (manager != null) {
@@ -57,7 +57,7 @@ public class VoiceBackgroundService extends Service {
         recognizer = SpeechRecognizer.createSpeechRecognizer(this);
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                        RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "hi-IN");
 
         recognizer.setRecognitionListener(new RecognitionListener() {
