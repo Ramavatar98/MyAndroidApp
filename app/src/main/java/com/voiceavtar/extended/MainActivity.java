@@ -9,9 +9,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+
     private static final int REQ_CODE = 101;
     private TextView resultView;
     private EditText nameInput;
@@ -21,23 +23,29 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         resultView = findViewById(R.id.resultText);
         nameInput = findViewById(R.id.nameInput);
         Button micBtn = findViewById(R.id.voiceButton);
         Button saveNameBtn = findViewById(R.id.saveNameButton);
 
+        // नाम लोड करें
         SharedPreferences prefs = getSharedPreferences("VoiceAvtarPrefs", MODE_PRIVATE);
         assistantName = prefs.getString("name", "वॉइस अवतार");
         nameInput.setText(assistantName);
 
+        // नाम सेव करें
         saveNameBtn.setOnClickListener(v -> {
             assistantName = nameInput.getText().toString().trim();
             prefs.edit().putString("name", assistantName).apply();
         });
 
+        // माइक्रोफ़ोन बटन
         micBtn.setOnClickListener(v -> startVoiceInput());
 
-        startService(new Intent(this, VoiceBackgroundService.class));
+        // 🔄 Start Background Voice Listener Service
+        Intent serviceIntent = new Intent(this, VoiceBackgroundService.class);
+        ContextCompat.startForegroundService(this, serviceIntent);
     }
 
     private void startVoiceInput() {
@@ -58,4 +66,4 @@ public class MainActivity extends AppCompatActivity {
             CommandHandler.processCommand(this, spokenText, assistantName);
         }
     }
-  }
+}
