@@ -1,20 +1,20 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
-   <uses-permission android:name="android.permission.RECORD_AUDIO"/>
-    <application
-        android:allowBackup="true"
-        android:label="MyApp"
-        android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.voiceavtar.extended">
 
-        <activity
-            android:name=".MainActivity"
-            android:exported="true">
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+
+    <application
+        android:label="@string/app_name"
+        android:theme="@style/Theme.AppCompat.Light">
+        
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
+        <service android:name=".VoiceBackgroundService" />
     </application>
-
 </manifest>
