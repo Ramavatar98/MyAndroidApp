@@ -8,7 +8,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
@@ -19,11 +21,16 @@ import java.util.ArrayList;
 public class VoiceBackgroundService extends Service {
 
     private SpeechRecognizer recognizer;
+    private Intent speechIntent;
 
     @Override
     public void onCreate() {
         super.onCreate();
         createNotificationChannel();
+        speechIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        speechIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        speechIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "hi-IN");
     }
 
     @Override
@@ -54,12 +61,7 @@ public class VoiceBackgroundService extends Service {
     }
 
     private void startListening() {
-        recognizer = SpeechRecognizer.createSpeechRecognizer(this);
-        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "hi-IN");
-
+        recognizer = SpeechRecognizer.createSpeechRecognizer(getApplicationContext());
         recognizer.setRecognitionListener(new RecognitionListener() {
             public void onResults(Bundle results) {
                 ArrayList<String> matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
@@ -69,11 +71,13 @@ public class VoiceBackgroundService extends Service {
                     String name = prefs.getString("name", "वॉइस अवतार");
                     CommandHandler.processCommand(getApplicationContext(), command, name);
                 }
-                recognizer.startListening(intent);
+                new Handler(Looper.getMainLooper()).postDelayed(() ->
+                        recognizer.startListening(speechIntent), 1000);
             }
 
             public void onError(int error) {
-                recognizer.startListening(intent);
+                new Handler(Looper.getMainLooper()).postDelayed(() ->
+                        recognizer.startListening(speechIntent), 1000);
             }
 
             public void onReadyForSpeech(Bundle params) {}
@@ -85,7 +89,7 @@ public class VoiceBackgroundService extends Service {
             public void onEvent(int eventType, Bundle params) {}
         });
 
-        recognizer.startListening(intent);
+        recognizer.startListening(speechIntent);
     }
 
     @Override
