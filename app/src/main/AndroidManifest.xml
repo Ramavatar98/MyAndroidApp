@@ -10,7 +10,7 @@
         android:theme="@style/Theme.AppCompat.Light">
 
         <activity
-            android:name=".MainActivity"
+            android:name="com.voiceavtar.extended.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -19,7 +19,7 @@
         </activity>
 
         <service
-            android:name=".VoiceBackgroundService"
+            android:name="com.voiceavtar.extended.VoiceBackgroundService"
             android:exported="false"
             android:foregroundServiceType="microphone"/>
     </application>
