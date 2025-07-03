@@ -100,4 +100,4 @@ public class MainActivity extends AppCompatActivity {
             CommandHandler.processCommand(this, spokenText, assistantName);
         }
     }
-}
+                }
