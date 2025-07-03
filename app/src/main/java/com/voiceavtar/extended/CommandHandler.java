@@ -7,9 +7,10 @@ import android.util.Log;
 import android.widget.Toast;
 
 public class CommandHandler {
-    public static void processCommand(Context context, String command, String assistantName) {
+
+    public static void processCommand(Context context, String command, String name) {
         command = command.toLowerCase();
-        if (!command.contains(assistantName.toLowerCase())) return;
+        if (!command.contains(name.toLowerCase())) return;
 
         try {
             Log.d("VoiceAvtar", "Received command: " + command);
@@ -17,13 +18,13 @@ public class CommandHandler {
 
             if (command.matches(".*(कैमरा|camera|camra|open camera|कैमरा खोलो|कैमरा ओपन).*")) {
                 Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // ✅ जरूरी
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // जरूरी
                 context.startActivity(intent);
 
             } else if (command.matches(".*(कॉल|call|डायल|फोन).*")) {
                 Intent intent = new Intent(Intent.ACTION_DIAL);
                 intent.setData(Uri.parse("tel:1234567890"));
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // ✅ जरूरी
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // जरूरी
                 context.startActivity(intent);
 
             } else {
